@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 5000;
 // );
 app.use(cors());
 app.use(express.json());
+app.use(express.static("dist"));
 
 // Connect to MongoDB
 mongoose
@@ -29,9 +30,9 @@ mongoose
   .catch((err) => console.log(err));
 
 // Placeholder route
-app.get("/", (req, res) => {
-  res.send("Hello from the backend!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello from the backend!");
+// });
 
 app.use("/api/notes", notesRoutes);
 app.use("/api/auth", authRoutes);

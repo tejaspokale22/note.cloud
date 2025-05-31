@@ -30,11 +30,11 @@ function Navbar({ user, handleLogout }) {
   ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full text-black bg-white border-b border-gray-500 shadow-md dark:bg-black dark:text-white">
-      <div className="flex items-center justify-between px-4 py-2">
+    <nav className="fixed top-0 z-50 w-full text-black bg-white border-b border-gray-300 dark:bg-black dark:text-white">
+      <div className="flex justify-between items-center px-4 py-2">
         {/* Logo */}
-        <div className='flex items-center justify-center'>
-          <Link to='/' className='flex items-center justify-center'>
+        <div className='flex justify-center items-center'>
+          <Link to='/' className='flex justify-center items-center'>
             <h1 className="text-xl font-bold text-black md:text-2xl dark:text-white">
               note<span className='text-blue-600'>.cloud</span>
             </h1>
@@ -109,7 +109,7 @@ function Navbar({ user, handleLogout }) {
           </ul>
 
           {/* Footer Text */}
-          <div className="absolute w-full text-xl font-bold text-center bottom-4">
+          <div className="absolute bottom-4 w-full text-xl font-bold text-center">
             <h1>@note<span className='text-blue-600'>.cloud</span></h1>
           </div>
         </div>
