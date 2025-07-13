@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchNotes } from '@/Slices/noteSlice'; // Import the action to fetch notes
-import { getCurrentUser } from '@/Slices/authSlice';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchNotes } from "@/Slices/noteSlice"; // Import the action to fetch notes
+import { getCurrentUser } from "@/Slices/authSlice";
 import { FaCirclePlus } from "react-icons/fa6";
-import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
-import Create from '../Create/Create';
-import Loading from 'react-loading-components';
+import { Dialog, DialogTrigger, DialogContent } from "@radix-ui/react-dialog";
+import Create from "../Create/Create";
+import Loading from "react-loading-components";
 
 function Home() {
   const dispatch = useDispatch();
@@ -35,32 +35,34 @@ function Home() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user && userStatus === 'succeeded') {
+    if (user && userStatus === "succeeded") {
       dispatch(fetchNotes(user._id)); // Fetch notes when user is available
     }
   }, [dispatch, user, userStatus]);
 
   return (
-    <div className="min-h-screen p-4 pt-16 overflow-auto bg-white pb-14 dark:bg-black">
-      {(userStatus === 'loading' || notesStatus === 'loading') && (
-        <div className="flex items-center justify-center min-h-screen">
-          <Loading type="three_dots" width={60} height={60} fill="blue"/>
+    <div className="overflow-auto p-4 pt-16 pb-14 min-h-screen bg-white dark:bg-black">
+      {(userStatus === "loading" || notesStatus === "loading") && (
+        <div className="flex justify-center items-center min-h-screen">
+          <Loading type="three_dots" width={60} height={60} fill="blue" />
         </div>
       )}
 
-      {(userStatus === 'failed' || notesStatus === 'failed') && (
+      {(userStatus === "failed" || notesStatus === "failed") && (
         <p className="text-xl font-medium text-red-600 dark:text-red-400">
-          {userStatus === 'failed'
+          {userStatus === "failed"
             ? `Failed to load user: ${userError || JSON.stringify(userError)}`
-            : `Failed to load notes: ${notesError.message || JSON.stringify(notesError)}`}
+            : `Failed to load notes: ${
+                notesError.message || JSON.stringify(notesError)
+              }`}
         </p>
       )}
 
-      {userStatus === 'succeeded' && notesStatus === 'succeeded' && (
+      {userStatus === "succeeded" && notesStatus === "succeeded" && (
         <>
           <div className="flex justify-between mb-6">
             <h1 className="text-3xl font-semibold text-center underline dark:text-white sm:text-3xl md:text-4xl lg:text-4xl">
-              {notes.length ? 'Your saved notes' : 'You have no notes'}
+              {notes.length ? "Your saved notes" : "You have no notes"}
             </h1>
           </div>
 
@@ -90,7 +92,7 @@ function Home() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <FaCirclePlus
-            className="fixed w-16 h-16 text-blue-700 rounded-full cursor-pointer bottom-4 right-4 hover:scale-105 dark:text-blue-700"
+            className="fixed right-4 bottom-4 w-16 h-16 text-blue-700 rounded-full cursor-pointer hover:scale-105 dark:text-blue-700"
             onClick={handleCreateNote}
           />
         </DialogTrigger>

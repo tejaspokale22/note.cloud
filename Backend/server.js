@@ -30,9 +30,9 @@ mongoose
   .catch((err) => console.log(err));
 
 // Placeholder route
-// app.get("/", (req, res) => {
-//   res.send("Hello from the backend!");
-// });
+app.get("/", (req, res) => {
+  res.json({ message: "Server working!!!" });
+});
 
 app.use("/api/notes", notesRoutes);
 app.use("/api/auth", authRoutes);
