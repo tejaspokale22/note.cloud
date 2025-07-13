@@ -81,6 +81,9 @@ export const createNote = async (req, res) => {
       content: req.body.content,
     });
     const savedNote = await newNote.save();
+    await fetch("https://next-test-app-bay.vercel.app/api/revalidate-notes", {
+      method: "POST",
+    });
     res.json(savedNote);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -111,6 +114,9 @@ export const updateNote = async (req, res) => {
 
     // Fetch the updated note to send it in the response
     const updatedNote = await Note.findById(req.params.id);
+    await fetch("https://next-test-app-bay.vercel.app/api/revalidate-notes", {
+      method: "POST",
+    });
     res.json(updatedNote);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -124,6 +130,9 @@ export const deleteNote = async (req, res) => {
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
+    await fetch("https://next-test-app-bay.vercel.app/api/revalidate-notes", {
+      method: "POST",
+    });
     res.status(200).json({ message: "Note deleted successfully" });
   } catch (error) {
     console.error(error);
