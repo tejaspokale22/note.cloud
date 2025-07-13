@@ -34,6 +34,18 @@ export const getNotes = async (req, res) => {
   }
 };
 
+// Get all notes in the database (public)
+export const getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find({});
+    res.status(200).json(notes);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching all notes" });
+  }
+};
+
 // Get a single note by ID
 export const getNoteById = async (req, res) => {
   try {

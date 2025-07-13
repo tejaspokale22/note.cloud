@@ -2,6 +2,7 @@ import express from "express";
 import {
   getNotes,
   getNoteById,
+  getAllNotes,
   createNote,
   updateNote,
   deleteNote,
@@ -12,7 +13,8 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 // Define routes and use the controller functions with authentication
-router.get("/", getNotes);
+router.get("/", authMiddleware, getNotes);
+router.get("/all", getAllNotes);
 router.get("/:id", authMiddleware, getNoteById);
 router.post("/", authMiddleware, createNote);
 router.put("/:id", authMiddleware, updateNote);
