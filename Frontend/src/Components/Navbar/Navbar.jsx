@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import Profile from './Profile';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
+import Profile from "./Profile";
 
 function Navbar({ user, handleLogout }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);  // Mobile menu state
-  const [authStatus, setAuthStatus] = useState(false);  // Local auth state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [authStatus, setAuthStatus] = useState(false);
   const navigate = useNavigate();
   console.log(user);
 
-  // Update authStatus based on user login state
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (user && token) {
       setAuthStatus(true);
     } else {
@@ -19,24 +18,22 @@ function Navbar({ user, handleLogout }) {
     }
   }, [user]);
 
-  // Toggle menu visibility in mobile view
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Navigation items with conditional rendering based on authStatus
   const navItems = [
-    { name: 'Home', slug: '/', active: authStatus }, // Home should always be visible
-    { name: 'About', slug: '/about', active: true }, // About only when not logged in
-    { name: 'Login', slug: '/login', active: !authStatus }, // Login only when not logged in
+    { name: "Home", slug: "/", active: authStatus },
+    { name: "About", slug: "/about", active: true },
+    { name: "Login", slug: "/login", active: !authStatus },
   ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full text-black bg-white border-b border-gray-300 dark:bg-black dark:text-white">
-      <div className="flex justify-between items-center px-4 py-2">
+    <nav className="fixed top-0 z-50 w-full text-black bg-white border-b border-gray-300 dark:border-gray-600 dark:bg-black dark:text-white">
+      <div className="flex items-center justify-between px-4 py-2">
         {/* Logo */}
-        <div className='flex justify-center items-center'>
-          <Link to='/' className='flex justify-center items-center'>
+        <div className="flex items-center justify-center">
+          <Link to="/" className="flex items-center justify-center">
             <h1 className="text-xl font-bold text-black md:text-2xl dark:text-white">
-              note<span className='text-blue-600'>.cloud</span>
+              note<span className="text-blue-600">.cloud</span>
             </h1>
           </Link>
         </div>
@@ -75,7 +72,7 @@ function Navbar({ user, handleLogout }) {
         {/* Mobile Dropdown Menu */}
         <div
           className={`fixed top-0 right-0 w-40 h-full bg-white text-black transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
           } z-50 flex flex-col items-center dark:bg-black dark:text-white`}
         >
           <button onClick={toggleMenu} className="absolute top-3 right-3">
@@ -109,8 +106,10 @@ function Navbar({ user, handleLogout }) {
           </ul>
 
           {/* Footer Text */}
-          <div className="absolute bottom-4 w-full text-xl font-bold text-center">
-            <h1>@note<span className='text-blue-600'>.cloud</span></h1>
+          <div className="absolute w-full text-xl font-bold text-center bottom-4">
+            <h1>
+              @note<span className="text-blue-600">.cloud</span>
+            </h1>
           </div>
         </div>
       </div>
