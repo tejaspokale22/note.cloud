@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm } from "node_modules/react-hook-form/dist";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotes, addNote, updateNote } from "@/Slices/noteSlice"; // Import thunks

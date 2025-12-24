@@ -23,7 +23,7 @@
     "openai": "^4.52.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.53.0",
+    "react-hook-form": "^7.69.0",
     "react-icons": "^5.3.0",
     "react-loading-components": "^1.1.12",
     "react-redux": "^9.1.2",

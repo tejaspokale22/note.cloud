@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "node_modules/react-hook-form/dist";
+import { useForm } from "react-hook-form";
 import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import axiosInstance from "@/utils/axiosInstance";
 import { useNavigate } from "react-router-dom"; // Import navigate

@@ -10,7 +10,7 @@ export const uiSlice = createSlice({
   reducers: {
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
-      // localStorage.setItem("darkMode", state.darkMode);
+      localStorage.setItem("darkMode", JSON.stringify(state.darkMode));
     },
   },
 });

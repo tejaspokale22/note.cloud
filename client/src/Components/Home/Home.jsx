@@ -41,9 +41,9 @@ function Home() {
   }, [dispatch, user, userStatus]);
 
   return (
-    <div className="overflow-auto p-4 pt-16 pb-14 min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen p-4 pt-16 overflow-auto bg-white pb-14 dark:bg-black">
       {(userStatus === "loading" || notesStatus === "loading") && (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen">
           <Loading type="three_dots" width={60} height={60} fill="blue" />
         </div>
       )}
@@ -60,31 +60,33 @@ function Home() {
 
       {userStatus === "succeeded" && notesStatus === "succeeded" && (
         <>
-          <div className="flex justify-between mb-6">
-            <h1 className="text-3xl font-semibold text-center underline dark:text-white sm:text-3xl md:text-4xl lg:text-4xl">
-              {notes.length ? "Your saved notes" : "You have no notes"}
-            </h1>
-          </div>
-
-          {/* Display Notes */}
-          <div className="grid gap-4 mt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {notes.map((note) => (
-              <div
-                key={note._id}
-                className="flex flex-col justify-between p-4 bg-blue-200 rounded shadow-lg cursor-pointer dark:bg-black dark:opacity-90 dark:border-gray-500 dark:border"
-              >
-                <p className="overflow-hidden text-xl font-semibold text-gray-800 dark:text-white text-ellipsis">
-                  {note.title}
-                </p>
-                <Link
-                  to={`/view/${note._id}`}
-                  className="block px-6 py-2 mt-4 text-center text-white bg-blue-600 rounded hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+          {notes.length === 0 ? (
+            <div className="flex items-center justify-center min-h-[60vh]">
+              <p className="text-2xl font-medium text-gray-500 dark:text-gray-400">
+                No notes yet. Create your first note!
+              </p>
+            </div>
+          ) : (
+            /* Display Notes */
+            <div className="grid gap-4 mt-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {notes.map((note) => (
+                <div
+                  key={note._id}
+                  className="flex flex-col justify-between p-4 bg-blue-200 rounded shadow-lg cursor-pointer dark:bg-black dark:opacity-90 dark:border-gray-500 dark:border"
                 >
-                  View
-                </Link>
-              </div>
-            ))}
-          </div>
+                  <p className="overflow-hidden text-xl font-semibold text-gray-800 dark:text-white text-ellipsis">
+                    {note.title}
+                  </p>
+                  <Link
+                    to={`/view/${note._id}`}
+                    className="block px-6 py-2 mt-4 text-center text-white bg-blue-600 rounded hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+                  >
+                    View
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
 
@@ -92,7 +94,7 @@ function Home() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <FaCirclePlus
-            className="fixed right-4 bottom-4 w-16 h-16 text-blue-700 rounded-full cursor-pointer hover:scale-105 dark:text-blue-700"
+            className="fixed w-16 h-16 text-blue-700 rounded-full cursor-pointer right-4 bottom-4 hover:scale-105 dark:text-blue-700"
             onClick={handleCreateNote}
           />
         </DialogTrigger>

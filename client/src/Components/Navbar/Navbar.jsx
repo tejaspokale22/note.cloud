@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { HiHome, HiInformationCircle, HiLogin } from "react-icons/hi";
 import Profile from "./Profile";
 
 function Navbar({ user, handleLogout }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState(false);
   const navigate = useNavigate();
-  console.log(user);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -21,96 +21,122 @@ function Navbar({ user, handleLogout }) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { name: "Home", slug: "/", active: authStatus },
-    { name: "About", slug: "/about", active: true },
-    { name: "Login", slug: "/login", active: !authStatus },
+    { name: "Home", slug: "/", active: authStatus, icon: HiHome },
+    { name: "About", slug: "/about", active: true, icon: HiInformationCircle },
+    { name: "Login", slug: "/login", active: !authStatus, icon: HiLogin },
   ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full text-black bg-white border-b border-gray-300 dark:border-gray-600 dark:bg-black dark:text-white">
-      <div className="flex items-center justify-between px-4 py-2">
+    <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm dark:bg-gray-900 dark:border-gray-700">
+      <div className="flex items-center justify-between h-16 px-4 mx-auto lg:px-6">
         {/* Logo */}
-        <div className="flex items-center justify-center">
-          <Link to="/" className="flex items-center justify-center">
-            <h1 className="text-xl font-bold text-black md:text-2xl dark:text-white">
-              note<span className="text-blue-600">.cloud</span>
-            </h1>
-          </Link>
-        </div>
+        <Link to="/" className="flex items-center space-x-2 group">
+          <div className="flex items-center justify-center w-8 h-8 transition-transform bg-blue-600 rounded-lg group-hover:scale-110">
+            <span className="text-2xl font-bold text-white">N</span>
+          </div>
+          <h1 className="text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
+            note<span className="text-blue-600">.cloud</span>
+          </h1>
+        </Link>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-black dark:text-white">
-            {!isMenuOpen && <FaBars size={20} />}
-          </button>
-        </div>
+        <button
+          onClick={toggleMenu}
+          className="p-2 text-gray-700 transition-colors rounded-lg md:hidden hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          aria-label="Toggle menu"
+        >
+          {!isMenuOpen ? <FaBars size={20} /> : <FaTimes size={20} />}
+        </button>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex md:items-center md:ml-auto">
+        <div className="items-center hidden mr-8 space-x-3 md:flex">
           {navItems.map(
             (item) =>
               item.active && (
-                <li key={item.name} className="flex text-center md:ml-4">
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className="text-black text-md hover:border-b-2 hover:border-blue-600 dark:text-white"
-                  >
-                    {item.name}
-                  </button>
-                </li>
+                <button
+                  key={item.name}
+                  onClick={() => navigate(item.slug)}
+                  className="px-4 py-2 text-base font-medium text-gray-700 transition-colors rounded-lg hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400"
+                >
+                  {item.name}
+                </button>
               )
           )}
 
-          {/* Conditional Profile component rendering */}
+          {/* Profile */}
           {authStatus && (
-            <li className="md:ml-4">
+            <div className="ml-1">
               <Profile user={user} handleLogout={handleLogout} />
-            </li>
+            </div>
           )}
-        </ul>
+        </div>
+      </div>
 
-        {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
         <div
-          className={`fixed top-0 right-0 w-40 h-full bg-white text-black transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
-          } z-50 flex flex-col items-center dark:bg-black dark:text-white`}
-        >
-          <button onClick={toggleMenu} className="absolute top-3 right-3">
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
+          onClick={toggleMenu}
+        />
+      )}
+
+      {/* Mobile Dropdown Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Mobile Menu Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Menu
+          </h2>
+          <button
+            onClick={toggleMenu}
+            className="p-2 text-gray-500 transition-colors rounded-lg hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+            aria-label="Close menu"
+          >
             <FaTimes size={20} />
           </button>
+        </div>
 
-          <ul className="flex flex-col items-center mt-16 space-y-4">
-            {navItems.map(
-              (item) =>
-                item.active && (
-                  <li key={item.name} className="w-full text-center">
-                    <button
-                      onClick={() => {
-                        setIsMenuOpen(false); // Close menu on navigation
-                        navigate(item.slug);
-                      }}
-                      className="block text-lg hover:underline"
-                    >
-                      {item.name}
-                    </button>
-                  </li>
-                )
-            )}
+        {/* Mobile Menu Items */}
+        <nav className="flex flex-col p-4 space-y-2">
+          {navItems.map(
+            (item) =>
+              item.active && (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    navigate(item.slug);
+                  }}
+                  className="flex items-center px-4 py-3 space-x-3 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                >
+                  <item.icon className="text-gray-500 dark:text-gray-400 text=lg" />
+                  <span className="font-medium">{item.name}</span>
+                </button>
+              )
+          )}
 
-            {/* Conditional Profile component rendering */}
-            {authStatus && (
-              <li className="w-full text-center">
-                <Profile user={user} handleLogout={handleLogout} />
-              </li>
-            )}
-          </ul>
+          {/* Profile in Mobile Menu */}
+          {authStatus && (
+            <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="px-4 py-2 mb-2">
+                <p className="text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                  Account
+                </p>
+              </div>
+              <Profile user={user} handleLogout={handleLogout} />
+            </div>
+          )}
+        </nav>
 
-          {/* Footer Text */}
-          <div className="absolute w-full text-xl font-bold text-center bottom-4">
-            <h1>
-              @note<span className="text-blue-600">.cloud</span>
-            </h1>
-          </div>
+        {/* Mobile Menu Footer */}
+        <div className="absolute bottom-0 w-full p-4 text-center border-t border-gray-200 dark:border-gray-700">
+          <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
+            @note<span className="text-blue-600">.cloud</span>
+          </p>
         </div>
       </div>
     </nav>

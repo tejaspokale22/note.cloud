@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "node_modules/react-hook-form/dist";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/Slices/authSlice"; // Import the login action
