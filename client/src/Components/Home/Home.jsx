@@ -12,11 +12,10 @@ function Home() {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.note.notes);
   const notesStatus = useSelector((state) => state.note.status);
-  const notesError = useSelector((state) => state.note.error);
-  const user = useSelector((state) => state.auth.userData); // Get the user data
+  // const notesError = useSelector((state) => state.note.error);
+  const user = useSelector((state) => state.auth.userData);
   const userStatus = useSelector((state) => state.auth.status);
-  const userError = useSelector((state) => state.auth.error);
-
+  // const userError = useSelector((state) => state.auth.error);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Handle create note dialog open
@@ -24,10 +23,9 @@ function Home() {
     setIsDialogOpen(true);
   };
 
-  // Handle note added and close the dialog
   const handleNoteAdded = () => {
     setIsDialogOpen(false);
-    dispatch(fetchNotes(user._id)); // Refetch notes after adding
+    dispatch(fetchNotes(user._id));
   };
 
   useEffect(() => {
@@ -36,7 +34,7 @@ function Home() {
 
   useEffect(() => {
     if (user && userStatus === "succeeded") {
-      dispatch(fetchNotes(user._id)); // Fetch notes when user is available
+      dispatch(fetchNotes(user._id));
     }
   }, [dispatch, user, userStatus]);
 
@@ -48,7 +46,7 @@ function Home() {
         </div>
       )}
 
-      {(userStatus === "failed" || notesStatus === "failed") && (
+      {/* {(userStatus === "failed" || notesStatus === "failed") && (
         <p className="text-xl font-medium text-red-600 dark:text-red-400">
           {userStatus === "failed"
             ? `Failed to load user: ${userError || JSON.stringify(userError)}`
@@ -56,7 +54,7 @@ function Home() {
                 notesError.message || JSON.stringify(notesError)
               }`}
         </p>
-      )}
+      )} */}
 
       {userStatus === "succeeded" && notesStatus === "succeeded" && (
         <>

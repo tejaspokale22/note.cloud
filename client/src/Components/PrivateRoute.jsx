@@ -1,21 +1,31 @@
 // src/components/PrivateRoute.js
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+
+const isJwtExpired = (token) => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+};
 
 function PrivateRoute({ children }) {
-  // Fetch user data and authentication status from Redux state
   const user = useSelector((state) => state.auth.userData);
-  
-  // Fetch the authToken directly from localStorage
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem("authToken");
 
-  // If no user is authenticated or if the token is missing, redirect to the login page
-  if (!user || !token) {
-    return <Navigate to="/login" />;
+  if (!token || isJwtExpired(token)) {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
+    return <Navigate to="/login" replace />;
   }
 
-  // If authenticated and token exists, render the protected route components
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   return children;
 }
 
